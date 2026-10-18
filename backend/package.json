@@ -9,6 +9,8 @@
 		"restart": "npm run build && npm run start"
 	},
 	"dependencies": {
+		"@aws-sdk/client-dynamodb": "^3.1152.0",
+		"@aws-sdk/lib-dynamodb": "^3.1152.0",
 		"@google/genai": "^2.30.0",
 		"express": "^5.3.0",
 		"zod": "^4.6.7"

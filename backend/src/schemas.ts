@@ -19,13 +19,3 @@ type TextPart = {
     text: string
 }
 
-// const history: Content[] = [
-//     {
-//         role: 'user',
-//         parts: [{ text: 'What is React?' }]
-//     },
-//     {
-//         role: 'model',
-//         parts: [{ text: 'React is a JavaScript library for building user interfaces.' }]
-//     }
-// ]
