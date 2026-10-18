@@ -22,10 +22,10 @@
 	margin-bottom: 0.25em;
 }
 
-.chat-header p {
+/* .chat-header p {
 	margin-top: 0;
 	color: #666;
-}
+} */
 
 .chat-messages {
 	flex: 1;
@@ -84,4 +84,26 @@
 	margin-right: auto;
 	background: white;
 	border: 1px solid #e5e5e5;
+}
+
+.chat-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1em;
+	padding-bottom: 1em;
+	border-bottom: 1px solid #ddd;
+}
+
+.clear-button {
+	padding: 0.6em 0.9em;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	background: white;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.clear-button:hover {
+	background: #eee;
 }

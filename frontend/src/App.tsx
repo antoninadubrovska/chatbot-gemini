@@ -1,5 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
+
+// backend uses parts (frontend uses text)
+
+type ApiMessage = {
+	role: "user" | "model";
+	parts: { text: string }[];
+};
 
 function App() {
 	const [question, setQuestion] = useState("");
@@ -7,6 +14,52 @@ function App() {
 	const [messages, setMessages] = useState<
 		{ role: "user" | "model"; text: string }[]
 	>([]);
+
+	// fetch history when the app opens
+	useEffect(() => {
+		async function loadHistory() {
+			try {
+				// retrieve the backend's conversation
+				const response = await fetch("/api/chat");
+
+				if (!response.ok) {
+					throw new Error("Failed to load chat history.");
+				}
+
+				const history: ApiMessage[] = await response.json();
+
+				// display the retrieved messages
+				setMessages(
+					// convert each backend message into the format React already uses
+					history.map((message) => ({
+						role: message.role,
+						text: message.parts.map((part) => part.text).join(""),
+					})),
+				);
+			} catch (error) {
+				console.error("Failed to load chat history:", error);
+			}
+		}
+
+		void loadHistory();
+	}, []);
+
+	async function clearChat() {
+		try {
+			const response = await fetch("/api/chat", {
+				method: "DELETE",
+			});
+
+			if (!response.ok) {
+				throw new Error("Failed to clear chat history.");
+			}
+
+			setMessages([]);
+			setQuestion("");
+		} catch (error) {
+			console.error("Failed to clear chat:", error);
+		}
+	}
 
 	async function sendQuestion(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
@@ -48,9 +101,24 @@ function App() {
 
 	return (
 		<main className="chat">
-			<header className="chat-header">
+			{/* <header className="chat-header">
 				<h1>Gemini Chatbot</h1>
 				<p>Ask me anything</p>
+			</header> */}
+
+			<header className="chat-header">
+				<div>
+					<h1>Gemini Chatbot</h1>
+					<p>Ask me anything</p>
+				</div>
+
+				<button
+					type="button"
+					className="clear-button"
+					onClick={clearChat}
+				>
+					Clear chat
+				</button>
 			</header>
 
 			<section className="chat-messages">
